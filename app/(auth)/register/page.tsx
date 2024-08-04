@@ -1,17 +1,20 @@
-import { FC } from 'react';
+'use client';
+import SubmitButton from '@/components/SubmitButton';
+import { register } from '@/actions/user.actions';
 
 const page = () => {
   return (
     <div>
-      <form>
-        <input type="email" name="email" id="email" placeholder="email" />
+      <form action={register} onSubmit={(e) => e.preventDefault()}>
+        <input type="text" name="name" placeholder="name" required />
+        <input type="email" name="email" placeholder="email" required />
         <input
           type="password"
           name="password"
-          id="password"
           placeholder="password"
+          required
         />
-        <button type="submit">Sign Up</button>
+        <SubmitButton>Register</SubmitButton>
       </form>
     </div>
   );
