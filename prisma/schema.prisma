@@ -21,6 +21,7 @@ model User {
   image         String?
   password      String?
   accounts      Account[]
+  tasks         Task[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -45,4 +46,18 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
+}
+
+model Task {
+  id     String     @id @default(cuid())
+  title  String
+  status TaskStatus
+  userId String
+  User   User       @relation(fields: [userId], references: [id])
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
 }
