@@ -28,14 +28,14 @@ export const authOptions = {
         const validatedFields = loginSchema.safeParse(credentials);
 
         if (!validatedFields.success) {
-          throw new Error('Invalid Credentials');
+          throw new Error(validatedFields.error.issues[0].message);
         }
 
         const { email, password } = validatedFields.data;
 
         const user = await getUserByEmail(email);
         if (!user || !user.password) {
-          throw new Error('Invalid Credentials');
+          throw new Error('User not found');
         }
 
         const isValid = await bcrypt.compare(password, user.password);
