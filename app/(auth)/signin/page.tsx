@@ -98,7 +98,7 @@ const Page: FC<pageProps> = () => {
               )}
             />
             {error && <FormError message={error}></FormError>}
-            <SubmitButton>Sign In</SubmitButton>
+            <Button>Sign In</Button>
           </form>
         </Form>
         <Link

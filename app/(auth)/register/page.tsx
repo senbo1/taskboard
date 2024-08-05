@@ -15,10 +15,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import SubmitButton from '@/components/SubmitButton';
 import { Input } from '@/components/ui/input';
 import { useFormState } from 'react-dom';
-import { useRef, useTransition } from 'react';
+import { startTransition, useEffect, useRef } from 'react';
 import { FormSucess } from '@/components/FormSucess';
 import { FormError } from '@/components/FormError';
 import { Button } from '@/components/ui/button';
@@ -34,7 +33,6 @@ const initialState = {
 
 const Signup = () => {
   const [state, formAction] = useFormState(registerAction, initialState);
-  const formRef = useRef<HTMLFormElement>(null);
 
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
@@ -45,6 +43,16 @@ const Signup = () => {
       ...(state.fields ?? {}),
     },
   });
+
+  useEffect(() => {
+    if (state.success) form.reset();
+  }, [state.success, form]);
+
+  const onSubmit = (values: RegisterSchemaType) => {
+    startTransition(async () => {
+      await formAction(values);
+    });
+  };
 
   return (
     <section className="min-h-screen flex justify-center items-center">
@@ -69,9 +77,7 @@ const Signup = () => {
         </div>
         <Form {...form}>
           <form
-            ref={formRef}
-            action={formAction}
-            onSubmit={form.handleSubmit(() => formRef.current?.submit())}
+            onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-2"
           >
             <FormField
@@ -115,7 +121,7 @@ const Signup = () => {
             />
             {state.success && <FormSucess message={state.message} />}
             {!state.success && <FormError message={state.message} />}
-            <SubmitButton>Register</SubmitButton>
+            <Button>Register</Button>
           </form>
         </Form>
         <Link

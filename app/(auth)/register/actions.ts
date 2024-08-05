@@ -2,7 +2,10 @@
 
 import bcrypt from 'bcryptjs';
 import { getUserByEmail } from '@/data/user';
-import { registerSchema } from '@/lib/validations/userSchema';
+import {
+  registerSchema,
+  RegisterSchemaType,
+} from '@/lib/validations/userSchema';
 import { db } from '@/lib/db';
 
 type RegisterActionState = {
@@ -13,10 +16,9 @@ type RegisterActionState = {
 
 export const registerAction = async (
   prevState: RegisterActionState,
-  values: FormData
+  values: RegisterSchemaType
 ) => {
-  const formData = Object.fromEntries(values);
-  const validatedFields = registerSchema.safeParse(formData);
+  const validatedFields = registerSchema.safeParse(values);
 
   if (!validatedFields.success) {
     return {
