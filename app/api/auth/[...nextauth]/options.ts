@@ -5,7 +5,7 @@ import { getServerSession, NextAuthOptions } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { db } from '@/lib/db';
 import { getUserByEmail } from '@/data/user';
-import { loginSchema } from '@/lib/validations/userSchema';
+import { loginSchema } from '@/lib/validations/user.schema';
 
 export const authOptions = {
   adapter: PrismaAdapter(db),
@@ -56,7 +56,7 @@ export const authOptions = {
     strategy: 'jwt',
   },
   pages: {
-    signIn: '/auth/signin',
+    signIn: '/signin',
   },
   debug: process.env.NODE_ENV === 'development',
 } satisfies NextAuthOptions;

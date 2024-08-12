@@ -51,13 +51,19 @@ model Account {
 model Task {
   id     String     @id @default(cuid())
   title  String
-  status TaskStatus
+  status TaskStatus @default(TODO)
   userId String
-  User   User       @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  User User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 enum TaskStatus {
-  PENDING
-  IN_PROGRESS
-  COMPLETED
+  TODO
+  DOING
+  DONE
 }

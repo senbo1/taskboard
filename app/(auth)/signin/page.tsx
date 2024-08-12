@@ -7,7 +7,7 @@ import SubmitButton from '@/components/SubmitButton';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, LoginSchemaType } from '@/lib/validations/userSchema';
+import { loginSchema, LoginSchemaType } from '@/lib/validations/user.schema';
 import { FaGoogle } from 'react-icons/fa';
 import {
   Form,

@@ -5,7 +5,7 @@ import { getUserByEmail } from '@/data/user';
 import {
   registerSchema,
   RegisterSchemaType,
-} from '@/lib/validations/userSchema';
+} from '@/lib/validations/user.schema';
 import { db } from '@/lib/db';
 
 type RegisterActionState = {

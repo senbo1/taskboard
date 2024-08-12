@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   registerSchema,
   RegisterSchemaType,
-} from '@/lib/validations/userSchema';
+} from '@/lib/validations/user.schema';
 import { registerAction } from './actions';
 import {
   Form,

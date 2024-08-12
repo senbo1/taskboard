@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs';
 import { getUserByEmail } from '@/data/user';
-import { registerSchema } from '@/lib/validations/userSchema';
+import { registerSchema } from '@/lib/validations/user.schema';
 import { db } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
+import { error } from 'console';
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -10,16 +11,22 @@ export const POST = async (req: NextRequest) => {
 
     const validatedFields = registerSchema.safeParse(body);
     if (!validatedFields.success) {
-      return new NextResponse(validatedFields.error.issues[0].message, {
-        status: 400,
-      });
+      return NextResponse.json(
+        { error: validatedFields.error.issues[0].message },
+        {
+          status: 400,
+        }
+      );
     }
 
     const { name, email, password } = validatedFields.data;
 
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
-      return new NextResponse('Email is already in use.', { status: 409 });
+      return NextResponse.json(
+        { error: 'Email is already in use.' },
+        { status: 409 }
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -31,8 +38,11 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
-    return new NextResponse('User Registered', { status: 201 });
+    return NextResponse.json({ error: 'User Registered' }, { status: 201 });
   } catch (error) {
-    return new NextResponse('Internal Server Error', { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
   }
 };
